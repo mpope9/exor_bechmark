@@ -95,49 +95,49 @@ erbloom10M  = ExorBenchmark.Helpers.create_erbloom(bin10k)
 
 Benchee.run(
   %{
-    "exor_filter 8 1k Elements" => 
+    "xor8 1k" => 
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor81k, &:xor8.contain/2) end,
-    "exor_filter 8 100k Elements" =>
+    "xor8 100k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor8100k, &:xor8.contain/2) end,
-    "exor_filter 8 1M Elements"   =>
+    "xor8 8 1M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor81M, &:xor8.contain/2) end,
-    "exor_filter 8 10M Elements"  =>
+    "xor8 8 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor810M, &:xor8.contain/2) end,
 
-    "exor_filter 16 1k Elements"    =>
+    "xor16 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor161k, &:xor16.contain/2) end,
-    "exor_filter 16 100k Elements"  =>
+    "xor16 100k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor16100k, &:xor16.contain/2) end,
-    "exor_filter 16 1M Elements"    =>
+    "xor16 1M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor161M, &:xor16.contain/2) end,
-    "exor_filter 16 10M Elements"   =>
+    "xor16 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor1610M, &:xor16.contain/2) end,
 
-    "Bloomex 1k Elements"   =>
+    "Bloomex 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex1k, &Bloomex.member?/2) end,
-    "Bloomex 100k Elements" =>
+    "Bloomex 100k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex100k, &Bloomex.member?/2) end,
-    "Bloomex 1M Elements"   =>
+    "Bloomex 1M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex1M, &Bloomex.member?/2) end,
-    "Bloomex 10M Elements"  =>
+    "Bloomex 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex10M, &Bloomex.member?/2) end,
 
-    "Blex 1k Elements"    =>
+    "Blex 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex1k, &Blex.member?/2) end,
-    "Blex 100k Elements"  =>
+    "Blex 100k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex100k, &Blex.member?/2) end,
-    "Blex 1M Elements"    =>
+    "Blex 1M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex1M, &Blex.member?/2) end,
-    "Blex 10M Elements"   =>
+    "Blex 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex10M, &Blex.member?/2) end,
 
-    "erbloom 1k Elements"   =>
+    "erbloom 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom1k, &:bloom.check/2) end,
-    "erbloom 100k Elements" =>
+    "erbloom 100k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom100k, &:bloom.check/2) end,
-    "erbloom 1M Elements"   =>
+    "erbloom 1M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom1M, &:bloom.check/2) end,
-    "erbloom 10M Elements"  =>
+    "erbloom 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom10M, &:bloom.check/2) end,
   },
   inputs: %{

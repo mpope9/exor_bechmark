@@ -1,6 +1,6 @@
 # ExorBechmark
 
-Benchmarking suite to compare the access performance of the [exor_filter](https://github.com/mpope9/exor_filter)) library against common bloom filter libraries.
+Benchmarking suite to compare the access performance of the [exor_filter](https://github.com/mpope9/exor_filter) library against common bloom filter libraries.
 
 The benchmark is simple, it create filters of 1k, 100k, 1M, and 10M elements.  Then it attempts 10k reads from each.
 

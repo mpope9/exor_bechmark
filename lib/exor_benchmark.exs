@@ -14,7 +14,7 @@ defmodule ExorBenchmark.Helpers do
       Enum.to_list(range)
       |> Enum.map(
         fn(x) -> 
-          x |> Integer.to_string
+          x
         end)
   end
 
@@ -62,39 +62,61 @@ end
 ## Benchmark setup
 ## This step takes a while.
 
+IO.puts("Creating helpers.")
 bin1k   = ExorBenchmark.Helpers.generate_bin_list(1..1_000)
 bin10k  = ExorBenchmark.Helpers.generate_bin_list(1..10_000)
 bin100k = ExorBenchmark.Helpers.generate_bin_list(1..100_000)
 bin1M   = ExorBenchmark.Helpers.generate_bin_list(1..1_000_000)
 bin10M  = ExorBenchmark.Helpers.generate_bin_list(1..10_000_000)
 
+IO.puts("Creating fuse8.")
+fuse81k    = :fuse8.new(bin1k, :none)
+fuse8100k  = :fuse8.new(bin100k, :none)
+fuse81M    = :fuse8.new(bin1M, :none)
+fuse810M   = :fuse8.new(bin10M, :none)
+
+IO.puts("Creating xor8.")
 xor81k    = :xor8.new(bin1k)
 xor8100k  = :xor8.new(bin100k)
 xor81M    = :xor8.new(bin1M)
 xor810M   = :xor8.new(bin10M)
 
+IO.puts("Creating xor16.")
 xor161k    = :xor8.new(bin1k)
 xor16100k  = :xor8.new(bin100k)
 xor161M    = :xor8.new(bin1M)
 xor1610M   = :xor8.new(bin10M)
 
+IO.puts("Creating bloomex.")
 bloomex1k   = ExorBenchmark.Helpers.create_bloomex(bin1k)
 bloomex100k = ExorBenchmark.Helpers.create_bloomex(bin100k)
 bloomex1M   = ExorBenchmark.Helpers.create_bloomex(bin1M)
 bloomex10M  = ExorBenchmark.Helpers.create_bloomex(bin10M)
 
+IO.puts("Creating blex.")
 blex1k    = ExorBenchmark.Helpers.create_blex(bin1k)
 blex100k  = ExorBenchmark.Helpers.create_blex(bin100k)
 blex1M    = ExorBenchmark.Helpers.create_blex(bin1M)
 blex10M   = ExorBenchmark.Helpers.create_blex(bin10M)
 
+IO.puts("Creating erbloom.")
 erbloom1k   = ExorBenchmark.Helpers.create_erbloom(bin1k)
 erbloom100k = ExorBenchmark.Helpers.create_erbloom(bin100k)
 erbloom1M   = ExorBenchmark.Helpers.create_erbloom(bin1M)
 erbloom10M  = ExorBenchmark.Helpers.create_erbloom(bin10k)
 
+IO.puts("Starting runs")
 Benchee.run(
   %{
+    "fuse8 1k" => 
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse81k, &:fuse8.contain/2) end,
+    "fuse8 100k" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse8100k, &:fuse8.contain/2) end,
+    "fuse8 8 1M" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse81M, &:fuse8.contain/2) end,
+    "fuse8 8 10M" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse810M, &:fuse8.contain/2) end,
+
     "xor8 1k" => 
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor81k, &:xor8.contain/2) end,
     "xor8 100k" =>

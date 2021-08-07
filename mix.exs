@@ -23,8 +23,9 @@ defmodule ExorBechmark.MixProject do
     [
       {:bloomex, "~> 1.2.0"},
       {:blex, "~> 0.2"},
-      {:erbloom, "~> 2.1.0-rc.2"},
+      {:erbloom, github: "Vonmo/erbloom", branch: "master"},
       {:exor_filter, github: "mpope9/exor_filter", tag: "v0.5.2"},
+      {:efuse_filter, github: "mpope9/efuse_filter"},
       {:benchee, github: "bencheeorg/benchee", branch: "main", override: true},
       {:benchee_html, "~> 1.0", only: :dev}
 

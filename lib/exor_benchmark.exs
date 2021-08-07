@@ -63,6 +63,7 @@ end
 ## This step takes a while.
 
 IO.puts("Creating helpers.")
+bin100   = ExorBenchmark.Helpers.generate_bin_list(1..100)
 bin1k   = ExorBenchmark.Helpers.generate_bin_list(1..1_000)
 bin10k  = ExorBenchmark.Helpers.generate_bin_list(1..10_000)
 bin100k = ExorBenchmark.Helpers.generate_bin_list(1..100_000)
@@ -70,36 +71,42 @@ bin1M   = ExorBenchmark.Helpers.generate_bin_list(1..1_000_000)
 bin10M  = ExorBenchmark.Helpers.generate_bin_list(1..10_000_000)
 
 IO.puts("Creating fuse8.")
+fuse8100    = :fuse8.new(bin100, :none)
 fuse81k    = :fuse8.new(bin1k, :none)
 fuse8100k  = :fuse8.new(bin100k, :none)
 fuse81M    = :fuse8.new(bin1M, :none)
 fuse810M   = :fuse8.new(bin10M, :none)
 
 IO.puts("Creating xor8.")
+xor8100   = :xor8.new(bin100)
 xor81k    = :xor8.new(bin1k)
 xor8100k  = :xor8.new(bin100k)
 xor81M    = :xor8.new(bin1M)
 xor810M   = :xor8.new(bin10M)
 
 IO.puts("Creating xor16.")
-xor161k    = :xor8.new(bin1k)
-xor16100k  = :xor8.new(bin100k)
-xor161M    = :xor8.new(bin1M)
-xor1610M   = :xor8.new(bin10M)
+xor16100   = :xor16.new(bin100)
+xor161k    = :xor16.new(bin1k)
+xor16100k  = :xor16.new(bin100k)
+xor161M    = :xor16.new(bin1M)
+xor1610M   = :xor16.new(bin10M)
 
 IO.puts("Creating bloomex.")
+bloomex100  = ExorBenchmark.Helpers.create_bloomex(bin100)
 bloomex1k   = ExorBenchmark.Helpers.create_bloomex(bin1k)
 bloomex100k = ExorBenchmark.Helpers.create_bloomex(bin100k)
 bloomex1M   = ExorBenchmark.Helpers.create_bloomex(bin1M)
 bloomex10M  = ExorBenchmark.Helpers.create_bloomex(bin10M)
 
 IO.puts("Creating blex.")
+blex100    = ExorBenchmark.Helpers.create_blex(bin100)
 blex1k    = ExorBenchmark.Helpers.create_blex(bin1k)
 blex100k  = ExorBenchmark.Helpers.create_blex(bin100k)
 blex1M    = ExorBenchmark.Helpers.create_blex(bin1M)
 blex10M   = ExorBenchmark.Helpers.create_blex(bin10M)
 
 IO.puts("Creating erbloom.")
+erbloom100   = ExorBenchmark.Helpers.create_erbloom(bin100)
 erbloom1k   = ExorBenchmark.Helpers.create_erbloom(bin1k)
 erbloom100k = ExorBenchmark.Helpers.create_erbloom(bin100k)
 erbloom1M   = ExorBenchmark.Helpers.create_erbloom(bin1M)
@@ -108,6 +115,8 @@ erbloom10M  = ExorBenchmark.Helpers.create_erbloom(bin10k)
 IO.puts("Starting runs")
 Benchee.run(
   %{
+    "fuse8 100" => 
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse8100, &:fuse8.contain/2) end,
     "fuse8 1k" => 
       fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse81k, &:fuse8.contain/2) end,
     "fuse8 100k" =>
@@ -117,6 +126,8 @@ Benchee.run(
     "fuse8 8 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, fuse810M, &:fuse8.contain/2) end,
 
+    "xor8 100" => 
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, xor8100, &:xor8.contain/2) end,
     "xor8 1k" => 
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor81k, &:xor8.contain/2) end,
     "xor8 100k" =>
@@ -126,6 +137,8 @@ Benchee.run(
     "xor8 8 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor810M, &:xor8.contain/2) end,
 
+    "xor16 100" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, xor16100, &:xor16.contain/2) end,
     "xor16 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor161k, &:xor16.contain/2) end,
     "xor16 100k" =>
@@ -135,6 +148,8 @@ Benchee.run(
     "xor16 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, xor1610M, &:xor16.contain/2) end,
 
+    "Bloomex 100" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex100, &Bloomex.member?/2) end,
     "Bloomex 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex1k, &Bloomex.member?/2) end,
     "Bloomex 100k" =>
@@ -144,6 +159,8 @@ Benchee.run(
     "Bloomex 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, bloomex10M, &Bloomex.member?/2) end,
 
+    "Blex 100" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, blex100, &Blex.member?/2) end,
     "Blex 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex1k, &Blex.member?/2) end,
     "Blex 100k" =>
@@ -153,6 +170,8 @@ Benchee.run(
     "Blex 10M" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, blex10M, &Blex.member?/2) end,
 
+    "erbloom 100" =>
+      fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom100, &:bloom.check/2) end,
     "erbloom 1k" =>
       fn input -> ExorBenchmark.Helpers.test_iteration(input, erbloom1k, &:bloom.check/2) end,
     "erbloom 100k" =>
